@@ -1,0 +1,70 @@
+<div class="music-loader">
+  <div class="loader-container">
+
+    <!-- Animated Music Logo -->
+    <div class="music-logo">
+      <div class="logo-circle">
+        <div class="vinyl-record">
+          <div class="vinyl-inner">
+            <div class="vinyl-center"></div>
+          </div>
+        </div>
+        <div class="music-note note-1">♪</div>
+        <div class="music-note note-2">♫</div>
+        <div class="music-note note-3">🎵</div>
+      </div>
+    </div>
+
+    <!-- Animated Sound Waves -->
+    <div class="sound-waves">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+
+    <!-- Loading Text with Music Notes -->
+    <div class="loading-text">
+      <span class="loading-notes">
+        <span *ngFor="let note of notes; let i = index"
+              [class.active]="i === currentNote"
+              class="note">
+          {{ note }}
+        </span>
+      </span>
+      <h2>Loading Music Muster</h2>
+      <p>Preparing your ultimate music experience...</p>
+    </div>
+
+    <!-- Animated Progress Bar -->
+    <div class="music-progress">
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="progress"></div>
+          <div class="progress-glow"></div>
+        </div>
+        <div class="progress-text">
+          <span>{{ progress }}%</span>
+          <span class="loading-status">{{ getLoadingStatus() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Equalizer Animation -->
+    <div class="equalizer">
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+    </div>
+
+  </div>
+</div>

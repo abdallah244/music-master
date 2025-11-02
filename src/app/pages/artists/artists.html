@@ -1,0 +1,333 @@
+<app-navigation></app-navigation>
+
+<main class="artists-main">
+  <!-- Hero Section -->
+  <section class="artists-hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          <span class="title-line">Discover</span>
+          <span class="title-line accent">Amazing Artists</span>
+        </h1>
+        <p class="hero-subtitle">
+          Explore top Arabic and international artists with detailed biographies and music.
+        </p>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-icon">👥</div>
+            <div class="stat-number">{{ getStats().total }}</div>
+            <div class="stat-label">Artists</div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon">🌙</div>
+            <div class="stat-number">{{ getStats().arabic }}</div>
+            <div class="stat-label">Arabic</div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon">🌎</div>
+            <div class="stat-number">{{ getStats().international }}</div>
+            <div class="stat-label">International</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls -->
+  <section class="controls-section">
+    <div class="container">
+      <!-- Search -->
+      <div class="search-container">
+        <div class="search-box">
+          <div class="search-icon">🔍</div>
+          <input
+            type="text"
+            placeholder="Search artists..."
+            [value]="searchTerm"
+            (input)="onSearchChange($event)"
+            class="search-input">
+        </div>
+      </div>
+
+      <!-- Quick Filters -->
+      <div class="quick-filters">
+<button
+  *ngFor="let type of filterTypes"
+  [class.active]="filter === type"
+  (click)="filterArtists(type)"
+  class="filter-btn">
+  <div class="filter-icon">
+    {{ type === 'all' ? '👥' : type === 'arabic' ? '🌙' : '🌎' }}
+  </div>
+  {{ type === 'all' ? 'All' : type === 'arabic' ? 'Arabic' : 'International' }}
+</button>
+
+
+        <button
+          class="filter-btn favorite"
+          (click)="viewFavorites()"
+          [class.active]="favoriteIds.length > 0 && filteredArtists.length === favoriteIds.length">
+          <div class="filter-icon">❤️</div>
+          Favorites ({{ favoriteIds.length }})
+        </button>
+      </div>
+
+      <!-- Sort Options -->
+      <div class="sort-options">
+        <span>Sort by:</span>
+        <button
+          *ngFor="let sort of sortOptions"
+
+          [class.active]="sortBy === sort"
+          (click)="sortArtists(sort)"
+          class="sort-btn">
+          {{ sort === 'name' ? 'A-Z' : sort === 'popularity' ? 'Popular' : 'Newest' }}
+        </button>
+      </div>
+
+      <!-- View Toggle -->
+      
+    </div>
+  </section>
+
+  <!-- Artists Grid -->
+  <section class="artists-section">
+    <div class="container">
+      <!-- Results Count -->
+      <div class="results-info">
+        Showing {{ displayedArtists.length }} of {{ filteredArtists.length }} artists
+      </div>
+
+      <!-- Grid View -->
+      <div *ngIf="viewMode === 'grid'" class="artists-grid">
+        <div
+          *ngFor="let artist of displayedArtists"
+          class="artist-card"
+          (click)="openArtistModal(artist)">
+
+          <div class="card-header">
+            <!-- صورة الفنان الحقيقية -->
+            <img
+              [src]="artist.image"
+              [alt]="artist.name + ' image'"
+              class="artist-image"
+              (error)="handleImageError($event, artist.id)"
+              loading="lazy">
+            <div class="artist-badge" [class]="artist.type">
+              {{ artist.type === 'arabic' ? 'AR' : 'INT' }}
+            </div>
+            <button
+              class="favorite-btn"
+              (click)="$event.stopPropagation(); toggleFavorite(artist.id)">
+              {{ isFavorite(artist.id) ? '❤️' : '🤍' }}
+            </button>
+            <div class="image-overlay"></div>
+          </div>
+
+          <div class="card-content">
+            <h3 class="artist-name">{{ artist.name }}</h3>
+            <p class="artist-genre">{{ artist.genre }}</p>
+            <p class="artist-bio">{{ artist.bio }}</p>
+
+            <div class="artist-meta">
+              <span class="meta-item">
+                <div class="meta-icon">🎵</div>
+                {{ artist.topSongs.length }} songs
+              </span>
+              <span class="meta-item">
+                <div class="meta-icon">🎂</div>
+                {{ getArtistAge(artist.birthDate) }} yrs
+              </span>
+            </div>
+
+            <div class="artist-tags">
+              <span class="tag">{{ artist.nationality }}</span>
+              <span class="tag">{{ artist.type }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- List View -->
+      <div *ngIf="viewMode === 'list'" class="artists-list">
+        <div
+          *ngFor="let artist of displayedArtists"
+          class="artist-item"
+          (click)="openArtistModal(artist)">
+
+          <!-- صورة الفنان في العرض القائمة -->
+          <div class="item-image">
+            <img
+              [src]="artist.image"
+              [alt]="artist.name + ' image'"
+              (error)="handleImageError($event, artist.id)"
+              loading="lazy">
+            <div class="list-badge" [class]="artist.type">
+              {{ artist.type === 'arabic' ? 'AR' : 'INT' }}
+            </div>
+          </div>
+
+          <div class="item-content">
+            <div class="item-main">
+              <h3>{{ artist.name }}</h3>
+              <p class="genre">{{ artist.genre }} • {{ artist.nationality }}</p>
+              <p class="bio">{{ artist.bio }}</p>
+            </div>
+
+            <div class="item-meta">
+              <span>{{ artist.topSongs.length }} songs</span>
+              <span>{{ getArtistAge(artist.birthDate) }} years</span>
+            </div>
+
+            <button
+              class="favorite-btn"
+              (click)="$event.stopPropagation(); toggleFavorite(artist.id)">
+              {{ isFavorite(artist.id) ? '❤️' : '🤍' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="filteredArtists.length === 0" class="no-results">
+        <div class="no-results-icon">🎵</div>
+        <h3>No artists found</h3>
+        <p>Try adjusting your search or filters</p>
+        <button (click)="filterArtists('all')" class="reset-btn">
+          Show all artists
+        </button>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="totalPages > 1" class="pagination">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="page-btn">
+          ← Previous
+        </button>
+
+        <div class="page-numbers">
+          <button
+            *ngFor="let page of getPaginationRange()"
+            (click)="goToPage(page)"
+            [class.active]="page === currentPage"
+            class="page-btn">
+            {{ page }}
+          </button>
+        </div>
+
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          class="page-btn">
+          Next →
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Modal -->
+<div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <button class="modal-close" (click)="closeModal()">✕</button>
+
+    <div *ngIf="selectedArtist" class="artist-modal">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <!-- صورة الفنان الكبيرة في المودال -->
+        <div class="artist-hero">
+          <img
+            [src]="selectedArtist.image"
+            [alt]="selectedArtist.name + ' profile image'"
+            class="hero-image"
+            (error)="handleModalImageError($event)">
+          <div class="hero-overlay"></div>
+        </div>
+        <div class="artist-info">
+          <h1>{{ selectedArtist.name }}</h1>
+          <div class="artist-meta">
+            <span class="genre">{{ selectedArtist.genre }}</span>
+            <span class="nationality">📍 {{ selectedArtist.nationality }}</span>
+            <span class="age">🎂 {{ getArtistAge(selectedArtist.birthDate) }} years</span>
+          </div>
+          <p class="artist-bio">{{ selectedArtist.bio }}</p>
+
+          <div class="action-buttons">
+            <button
+              (click)="toggleFavorite(selectedArtist.id)"
+              class="action-btn favorite">
+              {{ isFavorite(selectedArtist.id) ? '❤️ Favorited' : '🤍 Add to Favorites' }}
+            </button>
+            <button class="action-btn share">
+              📤 Share
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Life Story -->
+        <section class="story-section">
+          <h2>📖 Life Story</h2>
+          <p>{{ selectedArtist.lifeStory }}</p>
+        </section>
+
+        <!-- Top Songs -->
+        <section class="songs-section">
+          <h2>🎵 Top Songs</h2>
+          <div class="songs-list">
+            <div
+              *ngFor="let song of selectedArtist.topSongs; let i = index"
+              class="song-item">
+              <span class="song-number">{{ i + 1 }}</span>
+              <span class="song-title">{{ song }}</span>
+              <button class="play-btn" (click)="playSong(song)">
+                ▶️
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Artist Details -->
+        <section class="details-section">
+          <h2>📊 Artist Details</h2>
+          <div class="details-grid">
+            <div class="detail-item">
+              <div class="detail-icon">🎤</div>
+              <div class="detail-content">
+                <h4>Genre</h4>
+                <p>{{ selectedArtist.genre }}</p>
+              </div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-icon">🌍</div>
+              <div class="detail-content">
+                <h4>Nationality</h4>
+                <p>{{ selectedArtist.nationality }}</p>
+              </div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-icon">🎂</div>
+              <div class="detail-content">
+                <h4>Age</h4>
+                <p>{{ getArtistAge(selectedArtist.birthDate) }} years old</p>
+              </div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-icon">📅</div>
+              <div class="detail-content">
+                <h4>Born</h4>
+                <p>{{ formatBirthDate(selectedArtist.birthDate) }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>غ

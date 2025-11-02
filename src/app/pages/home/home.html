@@ -1,0 +1,362 @@
+<app-navigation></app-navigation>
+
+<main class="main-content">
+
+  <!-- Enhanced Hero Section -->
+  <section class="hero-section" id="hero">
+    <!-- Background with gradient instead of image -->
+    <div class="hero-background">
+      <div class="hero-particles">
+        <div class="particle" *ngFor="let i of [1,2,3,4,5,6]"></div>
+      </div>
+    </div>
+
+    <!-- Floating Elements with emojis -->
+    <div class="floating-elements">
+      <div class="floating-element vinyl">🎵</div>
+      <div class="floating-element headphones">🎧</div>
+      <div class="floating-element notes">🎶</div>
+    </div>
+
+    <div class="hero-container">
+      <div class="hero-content">
+
+        <!-- Hero Badge with emoji -->
+        <div class="hero-badge">
+          <div class="badge-icon">⭐</div>
+          <span class="badge-text">Ultimate Music Experience</span>
+          <div class="badge-pulse"></div>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="hero-title">
+          <span class="title-line">Discover The World's</span>
+          <span class="title-line accent">Greatest Artists</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="hero-subtitle">
+          Explore the top 50 Arabic and international artists with detailed biographies,
+          life stories, and their greatest hits all in one place.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-actions">
+          <button class="cta-button primary" routerLink="/artists">
+            <span class="button-content">
+              <span class="button-icon">👑</span>
+              Explore Artists
+            </span>
+            <div class="button-glow"></div>
+          </button>
+
+          <button class="cta-button secondary" (click)="scrollToSection('features')">
+            <span class="button-content">
+              <span class="button-icon">🚀</span>
+              How It Works
+            </span>
+          </button>
+        </div>
+
+        <!-- Quick Stats with Icons -->
+        <div class="hero-stats">
+          <div class="stat" *ngFor="let stat of stats">
+            <div class="stat-icon">{{ stat.icon }}</div>
+            <div class="stat-info">
+              <div class="stat-number">{{ stat.number }}</div>
+              <div class="stat-label">{{ stat.label }}</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Hero Visual with gradient placeholders -->
+      <div class="hero-visual">
+        <div class="visual-container">
+          <div class="album-stack">
+            <img src="vil.png" alt="fafs" class="album-cover cover-1">
+            <img src="vio.png" alt="fafs" class="album-cover cover-2">
+            <img src="vioo.png" alt="fafs" class="album-cover cover-3">
+
+          </div>
+          <div class="music-visualizer">
+            <div class="visualizer-bar" *ngFor="let i of [1,2,3,4,5,6]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-arrow">⌄</div>
+      <div class="scroll-text">Scroll to explore</div>
+    </div>
+  </section>
+
+  <!-- Logo Cloud Section with emojis -->
+  <section class="logo-cloud">
+    <div class="container">
+      <h3>Trusted by Music Lovers Worldwide</h3>
+      <div class="logos-grid">
+        <div class="brand-logo">🎵</div>
+        <div class="brand-logo">🎶</div>
+        <div class="brand-logo">🎤</div>
+        <div class="brand-logo">🎧</div>
+        <div class="brand-logo">📻</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section with gradients -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Why Choose Music Muster?</h2>
+        <p class="section-subtitle">Experience the future of music discovery</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features; let i = index">
+          <div class="feature-visual" [style.background]="feature.color + '20'">
+            <div class="feature-icon">{{ feature.icon }}</div>
+          </div>
+          <div class="feature-content">
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+            <ul class="feature-list">
+              <li *ngFor="let item of getFeatureItems(i)">✓ {{ item }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artists Preview Section -->
+  <section class="artists-preview" id="artists-preview">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Artists</h2>
+        <p class="section-subtitle">Meet the talented artists in our collection</p>
+      </div>
+
+      <!-- <div class="preview-grid">
+        <div class="preview-card" *ngFor="let artist of featuredArtists; let i = index">
+          <div class="card-image">
+
+            <div class="card-overlay">
+              <button class="play-button">
+                <span class="play-icon">▶️</span>
+              </button>
+              <span class="view-text">View Profile</span>
+            </div>
+            <div class="card-badge" [class]="artist.type">
+              {{ artist.type === 'arabic' ? '🌙' : '🌎' }}
+            </div>
+          </div>
+          <div class="card-content">
+            <h3>{{ artist.name }}</h3>
+            <p class="artist-genre">{{ artist.genre }}</p>
+            <div class="card-stats">
+              <span class="stat">
+                <span class="stat-icon">🎵</span>
+                {{ artist.topSongs.length }} Songs
+              </span>
+              <span class="stat">
+                <span class="stat-icon">👥</span>
+                {{ artist.popularity }}+ Fans
+              </span>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="section-actions">
+        <button class="cta-button large primary" routerLink="/artists">
+          <span class="button-content">
+            <span class="button-icon">👥</span>
+            View All Artists
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section with gradients -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-visual" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"></div>
+          <div class="stat-content">
+            <div class="stat-number">10K+</div>
+            <div class="stat-label">Happy Users</div>
+            <div class="stat-icon">😊</div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-visual" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"></div>
+          <div class="stat-content">
+            <div class="stat-number">1M+</div>
+            <div class="stat-label">Songs Played</div>
+            <div class="stat-icon">🎵</div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-visual" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"></div>
+          <div class="stat-content">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Artists Featured</div>
+            <div class="stat-icon">👑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">What Users Say</h2>
+        <p class="section-subtitle">Join thousands of satisfied music lovers</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+          <div class="testimonial-avatar">
+            <div class="avatar-icon">{{ testimonial.avatar }}</div>
+          </div>
+          <div class="testimonial-content">
+            <div class="quote-icon">❝</div>
+            <p>{{ testimonial.text }}</p>
+            <div class="testimonial-author">
+              <strong>{{ testimonial.author }}</strong>
+              <span>{{ testimonial.role }}</span>
+            </div>
+            <div class="rating">
+              <span class="star">⭐</span>
+              <span class="star">⭐</span>
+              <span class="star">⭐</span>
+              <span class="star">⭐</span>
+              <span class="star">⭐</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="final-cta">
+    <div class="cta-background"></div>
+
+    <div class="container">
+      <div class="cta-content">
+        <div class="cta-icon">🎵</div>
+        <h2>Ready to Start Your Musical Journey?</h2>
+        <p>Join thousands of music lovers discovering amazing artists every day</p>
+        <div class="cta-actions">
+          <button class="cta-button large primary" routerLink="/artists">
+            <span class="button-content">
+              <span class="button-icon">🚀</span>
+              Get Started Now
+            </span>
+          </button>
+          <button class="cta-button large secondary" (click)="scrollToSection('features')">
+            <span class="button-content">
+              <span class="button-icon">📺</span>
+              Watch Demo
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Enhanced Footer -->
+<footer class="footer">
+  <div class="footer-background"></div>
+
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">🎵</div>
+          <div class="logo-text">
+            <span class="logo-primary">Music</span>
+            <span class="logo-secondary">Muster</span>
+          </div>
+        </div>
+        <p class="footer-description">
+          Your ultimate destination for music discovery and artist stories.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link">
+            <span class="social-icon">📘</span>
+          </a>
+          <a href="#" class="social-link">
+            <span class="social-icon">🐦</span>
+          </a>
+          <a href="#" class="social-link">
+            <span class="social-icon">📷</span>
+          </a>
+          <a href="#" class="social-link">
+            <span class="social-icon">📺</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <div class="link-group">
+          <h4>Explore</h4>
+          <a routerLink="/">Home</a>
+          <a routerLink="/artists">Artists</a>
+          <a (click)="scrollToSection('about')">About</a>
+          <a (click)="scrollToSection('features')">Features</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Support</h4>
+          <a href="#">Help Center</a>
+          <a href="#">Contact Us</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Connect</h4>
+          <a href="#">Twitter</a>
+          <a href="#">Facebook</a>
+          <a href="#">Instagram</a>
+          <a href="#">YouTube</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Download</h4>
+          <a href="#" class="download-link">
+            <span class="download-icon">📱</span>
+            App Store
+          </a>
+          <a href="#" class="download-link">
+            <span class="download-icon">🤖</span>
+            Google Play
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 Music Muster. All rights reserved. Made by Abdallah Hany.</p>
+      <div class="payment-methods">
+        <span class="payment-icon">💳</span>
+        <span class="payment-icon">💵</span>
+        <span class="payment-icon">📧</span>
+      </div>
+    </div>
+  </div>
+</footer>

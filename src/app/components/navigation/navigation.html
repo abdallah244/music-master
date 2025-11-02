@@ -1,0 +1,111 @@
+<nav class="navigation"
+     [class.menu-open]="isMenuOpen"
+     [class.scrolled]="isScrolled">
+
+  <!-- Main Nav Header -->
+  <div class="nav-header">
+    <div class="logo" routerLink="/" (click)="navigateWithLoading('/')">
+      <div class="logo-icon">
+        <div class="music-wave">
+          <span [class]="'wave-bar ' + getBeatClass(0)"></span>
+          <span [class]="'wave-bar ' + getBeatClass(1)"></span>
+          <span [class]="'wave-bar ' + getBeatClass(2)"></span>
+          <span [class]="'wave-bar ' + getBeatClass(3)"></span>
+        </div>
+      </div>
+      <div class="logo-text">
+        <span class="logo-primary">Music</span>
+        <span class="logo-secondary">Muster</span>
+      </div>
+    </div>
+
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+      <span class="toggle-line"></span>
+      <span class="toggle-line"></span>
+      <span class="toggle-line"></span>
+    </button>
+  </div>
+
+  <!-- Navigation Content -->
+  <div class="nav-content" [class.visible]="isMenuOpen">
+
+    <!-- User Progress Section -->
+    <div class="user-progress">
+      <div class="progress-header">
+        <h3>Music Journey</h3>
+        <span class="progress-percent">{{ progress | number:'1.0-0' }}%</span>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill"
+               [style.width.%]="progress"
+               [style.background]="getProgressColor()">
+            <div class="progress-glow"></div>
+          </div>
+        </div>
+        <div class="progress-labels">
+          <span>Beginner</span>
+          <span>Pro</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul class="nav-links">
+      <li *ngFor="let item of navItems"
+          [class.active]="item.active"
+          class="nav-item">
+
+        <a *ngIf="item.path"
+           (click)="navigateWithLoading(item.path)"
+           class="nav-link">
+          <span class="nav-icon">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+          <span class="nav-indicator"></span>
+        </a>
+
+        <a *ngIf="item.anchor"
+           (click)="scrollToSection(item.anchor)"
+           class="nav-link">
+          <span class="nav-icon">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+          <span class="nav-indicator"></span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Premium Ad Panel -->
+    <div class="ad-panel">
+      <div class="ad-badge">{{ adContent.discount }}</div>
+      <div class="ad-content">
+        <div class="ad-icon">🎵</div>
+        <h4>{{ adContent.title }}</h4>
+        <p>{{ adContent.description }}</p>
+        <button class="ad-button" (click)="onUpgradeClick()">
+          {{ adContent.buttonText }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="nav-stats">
+      <div class="stat-item">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Artists</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">500+</span>
+        <span class="stat-label">Songs</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">24/7</span>
+        <span class="stat-label">Music</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"
+       [class.active]="isMenuOpen"
+       (click)="toggleMenu()"></div>
+</nav>

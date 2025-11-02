@@ -1,0 +1,466 @@
+// Variables
+$primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$dark-bg: #0f1419;
+$card-bg: #1a1a2e;
+$accent-color: #667eea;
+$text-primary: #e2e8f0;
+$text-secondary: #cbd5e0;
+
+.navigation {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 80px;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f1419 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+
+  &.scrolled {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(20px);
+  }
+
+  &:hover,
+  &.menu-open {
+    width: 320px;
+    box-shadow: 0 0 50px rgba(102, 126, 234, 0.2);
+
+    .logo-text,
+    .nav-content {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+// Nav Header
+.nav-header {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.music-wave {
+  display: flex;
+  align-items: end;
+  gap: 3px;
+  height: 100%;
+  justify-content: center;
+
+  .wave-bar {
+    width: 3px;
+    background: $accent-color;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+
+    &.beat-active {
+      background: #ff6b6b;
+      height: 100%;
+    }
+
+    &:nth-child(1) { height: 60%; animation-delay: 0s; }
+    &:nth-child(2) { height: 80%; animation-delay: 0.1s; }
+    &:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+    &:nth-child(4) { height: 70%; animation-delay: 0.3s; }
+  }
+}
+
+.logo-text {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.4s ease;
+
+  .logo-primary {
+    color: $text-primary;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+  }
+
+  .logo-secondary {
+    color: $accent-color;
+    font-size: 1rem;
+    font-weight: 600;
+    display: block;
+  }
+}
+
+// Menu Toggle
+.menu-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+  }
+
+  &.active {
+    .toggle-line:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    .toggle-line:nth-child(2) {
+      opacity: 0;
+    }
+    .toggle-line:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+  }
+}
+
+.toggle-line {
+  width: 20px;
+  height: 2px;
+  background: $text-primary;
+  transition: all 0.3s ease;
+  border-radius: 1px;
+}
+
+// Nav Content
+.nav-content {
+  padding: 24px 20px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.4s ease;
+
+  &.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// User Progress
+.user-progress {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  h3 {
+    color: $text-primary;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .progress-percent {
+    color: $accent-color;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+}
+
+.progress-container {
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    position: relative;
+    transition: width 0.3s ease;
+
+    .progress-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%);
+      animation: shimmer 2s infinite;
+    }
+  }
+
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: $text-secondary;
+  }
+}
+
+// Navigation Links
+.nav-links {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.nav-item {
+  margin-bottom: 8px;
+  position: relative;
+
+  &.active {
+    .nav-link {
+      background: rgba(102, 126, 234, 0.2);
+      border-color: $accent-color;
+
+      .nav-indicator {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+.nav-link {
+  color: $text-secondary;
+  text-decoration: none;
+  padding: 14px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: $text-primary;
+    transform: translateX(8px);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    .nav-icon {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  width: 24px;
+  text-align: center;
+}
+
+.nav-label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.nav-indicator {
+  position: absolute;
+  right: 16px;
+  width: 6px;
+  height: 6px;
+  background: $accent-color;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+}
+
+// Ad Panel
+.ad-panel {
+  background: $primary-gradient;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
+    animation: shine 3s infinite;
+  }
+}
+
+.ad-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ff6b6b;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.ad-content {
+  position: relative;
+  z-index: 2;
+
+  .ad-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    color: white;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+}
+
+.ad-button {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Stats
+.nav-stats {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+
+  .stat-number {
+    display: block;
+    color: $accent-color;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .stat-label {
+    display: block;
+    color: $text-secondary;
+    font-size: 0.7rem;
+    margin-top: 2px;
+  }
+}
+
+// Mobile Overlay
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+// Animations
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes shine {
+  0% { transform: rotate(0deg) translateX(-100%); }
+  100% { transform: rotate(0deg) translateX(200%); }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .navigation {
+    width: 100%;
+    height: 70px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    &:hover,
+    &.menu-open {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .nav-content {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .logo-text {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
